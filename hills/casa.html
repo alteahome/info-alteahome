@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#1E4E79">
+
+<title>La casa por dentro · Altea Hills</title>
+<style>
+  :root{
+    --crema:#FAF7F2; --papel:#FFFFFF; --tinta:#23201C; --suave:#7A736A;
+    --linea:#E3DCD1; --azul:#1E4E79; --terracota:#C4553E; --arena:#B08A3E;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--crema);color:var(--tinta);
+       font:16.5px/1.65 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+
+  .filo{height:4px;background:var(--azul)}
+
+  .barra{position:sticky;top:0;z-index:20;background:rgba(250,247,242,.94);
+         backdrop-filter:blur(8px);border-bottom:1px solid var(--linea)}
+  .barra .fila{max-width:760px;margin:0 auto;padding:10px 20px;
+               display:flex;align-items:center;gap:14px}
+  .volver{font-family:system-ui,-apple-system,sans-serif;font-size:13px;
+          color:var(--azul);text-decoration:none;flex:1}
+  .volver:hover{text-decoration:underline}
+  .idioma{display:flex}
+  .idioma button{border:1px solid var(--linea);background:var(--papel);color:var(--suave);
+                 padding:5px 12px;font-size:12.5px;cursor:pointer;
+                 font-family:system-ui,-apple-system,sans-serif}
+  .idioma button:first-child{border-radius:2px 0 0 2px}
+  .idioma button:last-child{border-radius:0 2px 2px 0;border-left:0}
+  .idioma button[aria-pressed=true]{background:var(--azul);color:#fff;border-color:var(--azul)}
+  .idioma button:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+
+  header{max-width:760px;margin:0 auto;padding:38px 20px 8px}
+  .marca{display:inline-block;margin:0 0 6px}
+  .marca img{height:62px;width:auto;display:block}
+  h1{font-size:clamp(28px,6.5vw,40px);margin:12px 0 6px;font-weight:600;letter-spacing:-.02em}
+  .lede{color:var(--suave);margin:0;max-width:46ch}
+
+  .indice{max-width:760px;margin:26px auto 0;padding:0 20px;
+          display:flex;flex-wrap:wrap;gap:7px;
+          font-family:system-ui,-apple-system,sans-serif;font-size:13px}
+  .indice a{padding:5px 12px;border:1px solid var(--linea);border-radius:14px;
+            background:var(--papel);color:var(--tinta);text-decoration:none}
+  .indice a:hover{border-color:var(--azul);color:var(--azul)}
+
+  main{max-width:760px;margin:0 auto;padding:10px 20px 20px}
+  section{padding-top:38px}
+  h2{font-size:24px;margin:0 0 4px;font-weight:600;letter-spacing:-.01em}
+  h2::after{content:"";display:block;width:38px;height:2px;background:var(--azul);margin-top:9px}
+  h3{font-size:17px;margin:24px 0 5px;font-weight:600}
+  p{margin:9px 0}
+
+  ol.pasos{counter-reset:p;list-style:none;padding:0;margin:14px 0}
+  ol.pasos li{counter-increment:p;position:relative;padding:0 0 14px 40px}
+  ol.pasos li::before{content:counter(p);position:absolute;left:0;top:1px;
+    width:25px;height:25px;border-radius:50%;background:var(--azul);color:#fff;
+    font-size:13px;line-height:25px;text-align:center;
+    font-family:system-ui,-apple-system,sans-serif}
+
+  .aviso{border-left:3px solid var(--terracota);background:#FCF4F1;padding:12px 16px;
+         margin:16px 0;font-size:15.5px}
+  .pendiente{border-left:3px solid var(--arena);background:#FBF7EF;padding:12px 16px;
+             margin:16px 0;font-size:15px;color:#6B6153}
+
+  footer{max-width:760px;margin:44px auto 0;padding:34px 20px 40px;color:var(--suave);
+         font-size:14.5px;border-top:1px solid var(--linea)}
+</style>
+</head>
+<body>
+
+<div class="filo" aria-hidden="true"></div>
+
+<div class="barra">
+  <div class="fila">
+    <a class="volver" href="index.html">← <span data-es="Guía de Altea Hills" data-en="Altea Hills guide">Guía de Altea Hills</span></a>
+    <div class="idioma">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <a class="marca" href="index.html"><img src="img/logo.png" alt="Alteahome.es · Vacation Rentals"></a>
+  <h1 data-es="La casa por dentro" data-en="How the house works">La casa por dentro</h1>
+  <p class="lede" data-es="Cómo funciona cada aparato. Si algo no responde como esperas, escríbenos y lo miramos."
+                  data-en="How each appliance works. If something isn't behaving as you'd expect, message us and we'll look into it.">
+     Cómo funciona cada aparato. Si algo no responde como esperas, escríbenos y lo miramos.</p>
+</header>
+
+<nav class="indice">
+  <a href="#tv" data-es="Televisores" data-en="TVs">Televisores</a>
+  <a href="#aire" data-es="Aire acondicionado" data-en="Air conditioning">Aire acondicionado</a>
+  <a href="#ventiladores" data-es="Ventiladores" data-en="Ceiling fans">Ventiladores</a>
+  <a href="#lavadora" data-es="Lavadora" data-en="Washing machine">Lavadora</a>
+  <a href="#cocina" data-es="Cocina" data-en="Kitchen">Cocina</a>
+  <a href="#instalaciones" data-es="Luz y agua" data-en="Power and water">Luz y agua</a>
+</nav>
+
+<main>
+
+<section id="tv">
+  <h2 data-es="Televisores" data-en="Televisions">Televisores</h2>
+  <p data-es="Hay dos SmartTV: una de 70 pulgadas en el salón y otra de 65 en el dormitorio principal. Las dos están conectadas al wifi de la casa, que es fibra de 1000 Mb."
+     data-en="There are two smart TVs: a 70-inch in the living room and a 65-inch in the main bedroom. Both are connected to the house wifi, a 1000 Mb fibre line.">
+     Hay dos SmartTV: una de 70 pulgadas en el salón y otra de 65 en el dormitorio principal. Las dos están conectadas al wifi de la casa, que es fibra de 1000 Mb.</p>
+
+  <h3 data-es="Ver Netflix o tus aplicaciones" data-en="Watching Netflix or your own apps">Ver Netflix o tus aplicaciones</h3>
+  <ol class="pasos">
+    <li data-es="Enciende la tele con el botón de encendido del mando."
+        data-en="Turn the TV on with the power button on the remote.">
+        Enciende la tele con el botón de encendido del mando.</li>
+    <li data-es="Pulsa el botón de inicio para ver todas las aplicaciones."
+        data-en="Press the home button to see all the apps.">
+        Pulsa el botón de inicio para ver todas las aplicaciones.</li>
+    <li data-es="Abre Netflix u otra aplicación y entra con tu propia cuenta."
+        data-en="Open Netflix or another app and sign in with your own account.">
+        Abre Netflix u otra aplicación y entra con tu propia cuenta.</li>
+  </ol>
+  <div class="aviso">
+    <span data-es="Acuérdate de cerrar sesión en tus cuentas antes de marcharte. Si no, quedan abiertas para el siguiente huésped."
+          data-en="Remember to sign out of your accounts before you leave. Otherwise they stay open for the next guest.">
+      Acuérdate de cerrar sesión en tus cuentas antes de marcharte. Si no, quedan abiertas para el siguiente huésped.</span>
+  </div>
+</section>
+
+<section id="aire">
+  <h2 data-es="Aire acondicionado" data-en="Air conditioning">Aire acondicionado</h2>
+  <p data-es="Hay aire acondicionado en todas las estancias, cada una con su mando. Enfría y calienta."
+     data-en="There's air conditioning in every room, each with its own remote. It both cools and heats.">
+     Hay aire acondicionado en todas las estancias, cada una con su mando. Enfría y calienta.</p>
+  <ol class="pasos">
+    <li data-es="Cierra las ventanas y las puertas de la terraza de esa habitación."
+        data-en="Close the windows and terrace doors in that room.">
+        Cierra las ventanas y las puertas de la terraza de esa habitación.</li>
+    <li data-es="Enciende el mando y elige modo frío (el copo de nieve) o calor (el sol)."
+        data-en="Switch the remote on and choose cooling (snowflake) or heating (sun).">
+        Enciende el mando y elige modo frío (el copo de nieve) o calor (el sol).</li>
+    <li data-es="Pon la temperatura entre 23 y 25 grados. Más bajo no enfría más rápido, solo gasta más."
+        data-en="Set it between 23 and 25 degrees. Lower doesn't cool faster, it just uses more power.">
+        Pon la temperatura entre 23 y 25 grados. Más bajo no enfría más rápido, solo gasta más.</li>
+    <li data-es="Apágalo al salir de casa y al abrir para ventilar."
+        data-en="Turn it off when you leave the house or open up to air the rooms.">
+        Apágalo al salir de casa y al abrir para ventilar.</li>
+  </ol>
+</section>
+
+<section id="ventiladores">
+  <h2 data-es="Ventiladores de techo" data-en="Ceiling fans">Ventiladores de techo</h2>
+  <p data-es="Muchas noches de verano el ventilador solo es suficiente y se duerme mejor que con el aire. Se manejan con el mando de cada habitación o con el interruptor de la pared."
+     data-en="On many summer nights the fan alone is enough, and it makes for better sleep than the air conditioning. They're controlled with the remote in each room or the wall switch.">
+     Muchas noches de verano el ventilador solo es suficiente y se duerme mejor que con el aire. Se manejan con el mando de cada habitación o con el interruptor de la pared.</p>
+</section>
+
+<section id="lavadora">
+  <h2 data-es="Lavadora" data-en="Washing machine">Lavadora</h2>
+  <p data-es="Está en la cocina. El detergente lo encontrarás al lado."
+     data-en="It's in the kitchen. You'll find the detergent next to it.">
+     Está en la cocina. El detergente lo encontrarás al lado.</p>
+  <ol class="pasos">
+    <li data-es="Mete la ropa y cierra bien la puerta hasta oír el clic."
+        data-en="Load the drum and close the door firmly until it clicks.">
+        Mete la ropa y cierra bien la puerta hasta oír el clic.</li>
+    <li data-es="Pon el detergente en el compartimento del cajón marcado con el II."
+        data-en="Put the detergent in the drawer compartment marked II.">
+        Pon el detergente en el compartimento del cajón marcado con el II.</li>
+    <li data-es="Elige un programa corto a 30 o 40 grados; para la mayoría de la ropa sobra."
+        data-en="Choose a short programme at 30 or 40 degrees; that's plenty for most clothes.">
+        Elige un programa corto a 30 o 40 grados; para la mayoría de la ropa sobra.</li>
+    <li data-es="Pulsa el botón de inicio. La puerta se bloquea mientras lava y se abre sola al terminar."
+        data-en="Press start. The door locks while it runs and releases on its own when the cycle ends.">
+        Pulsa el botón de inicio. La puerta se bloquea mientras lava y se abre sola al terminar.</li>
+  </ol>
+  <p data-es="Para tender, hay espacio en la zona de servicio. Te pedimos que no cuelgues ropa en la barandilla de la terraza."
+     data-en="There's space to hang laundry in the service area. We'd ask you not to hang clothes over the terrace railing.">
+     Para tender, hay espacio en la zona de servicio. Te pedimos que no cuelgues ropa en la barandilla de la terraza.</p>
+</section>
+
+<section id="cocina">
+  <h2 data-es="Cocina" data-en="Kitchen">Cocina</h2>
+  <p data-es="La cocina está equipada con todo lo necesario. La nevera es americana y tiene dispensador de hielo y de agua fría en la puerta."
+     data-en="The kitchen has everything you need. The fridge is American-style, with an ice and chilled water dispenser in the door.">
+     La cocina está equipada con todo lo necesario. La nevera es americana y tiene dispensador de hielo y de agua fría en la puerta.</p>
+</section>
+
+<section id="instalaciones">
+  <h2 data-es="Luz, agua y seguridad" data-en="Power, water and safety">Luz, agua y seguridad</h2>
+
+  <h3 data-es="Si se va la luz" data-en="If the power goes out">Si se va la luz</h3>
+  <p data-es="Suele ser porque han coincidido varios aparatos de mucho consumo: el aire acondicionado, la vitrocerámica y el horno a la vez. Salta el diferencial y se soluciona en un momento."
+     data-en="It's usually because several heavy appliances have coincided: the air conditioning, the hob and the oven at once. The trip switch goes and it's quick to fix.">
+     Suele ser porque han coincidido varios aparatos de mucho consumo: el aire acondicionado, la vitrocerámica y el horno a la vez. Salta el diferencial y se soluciona en un momento.</p>
+  <ol class="pasos">
+    <li data-es="Apaga o desenchufa el aparato que estabas usando cuando se fue la luz."
+        data-en="Switch off or unplug whatever you were using when the power went.">
+        Apaga o desenchufa el aparato que estabas usando cuando se fue la luz.</li>
+    <li data-es="Abre el cuadro eléctrico y sube la palanca que esté bajada."
+        data-en="Open the fuse box and push back up whichever switch has dropped.">
+        Abre el cuadro eléctrico y sube la palanca que esté bajada.</li>
+    <li data-es="Si vuelve a saltar enseguida, no insistas y escríbenos."
+        data-en="If it trips again straight away, don't keep trying — message us.">
+        Si vuelve a saltar enseguida, no insistas y escríbenos.</li>
+  </ol>
+  <div class="pendiente" data-es="Pendiente: dónde está el cuadro eléctrico exactamente."
+                          data-en="Pending: exactly where the fuse box is.">
+    Pendiente: dónde está el cuadro eléctrico exactamente.</div>
+
+  <h3 data-es="Llaves de corte del agua" data-en="Water stopcocks">Llaves de corte del agua</h3>
+  <p data-es="Si ves una fuga, cierra la llave y avísanos. No hace falta que arregles nada."
+     data-en="If you spot a leak, close the stopcock and let us know. You don't need to fix anything.">
+     Si ves una fuga, cierra la llave y avísanos. No hace falta que arregles nada.</p>
+  <div class="pendiente" data-es="Pendiente: dónde están las llaves de corte, general y de cada baño."
+                          data-en="Pending: where the stopcocks are, the main one and each bathroom's.">
+    Pendiente: dónde están las llaves de corte, general y de cada baño.</div>
+
+  <h3 data-es="Detector de humos" data-en="Smoke detector">Detector de humos</h3>
+  <p data-es="Hay un detector de humos en el salón. Si empieza a pitar sin motivo, seguramente sea la pila; escríbenos y lo cambiamos. En caso de incendio, salid de la casa y llamad al 112."
+     data-en="There's a smoke detector in the living room. If it starts beeping for no reason it's most likely the battery; message us and we'll change it. In case of fire, get out of the house and call 112.">
+     Hay un detector de humos en el salón. Si empieza a pitar sin motivo, seguramente sea la pila; escríbenos y lo cambiamos. En caso de incendio, salid de la casa y llamad al 112.</p>
+</section>
+
+<div class="pendiente">
+  <strong>Nota para Sergio:</strong> los pasos de la lavadora, el aire y la tele están escritos
+  de forma genérica. Cuando me digas marca y modelo de cada aparato, los ajusto a los botones
+  reales. También convendría una foto del mando del aire y del cajón de la lavadora, que es
+  donde más dudas surgen.
+</div>
+
+</main>
+
+<footer>
+  <p data-es="Si algo no funciona, escríbenos por WhatsApp al 637 720 834 y lo miramos."
+     data-en="If something isn't working, message us on WhatsApp at +34 637 720 834 and we'll look into it.">
+     Si algo no funciona, escríbenos por WhatsApp al <a href="https://wa.me/34637720834">637 720 834</a> y lo miramos.</p>
+</footer>
+
+<script>
+  const botones = document.querySelectorAll('.idioma button');
+  function cambiar(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-es]').forEach(el => { el.textContent = el.dataset[lang]; });
+    botones.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+    try { localStorage.setItem('alteahome-lang', lang); } catch (e) {}
+  }
+  botones.forEach(b => b.addEventListener('click', () => cambiar(b.dataset.lang)));
+  let inicial = null;
+  try { inicial = localStorage.getItem('alteahome-lang'); } catch (e) {}
+  if (!inicial) { inicial = (navigator.language || 'es').startsWith('es') ? 'es' : 'en'; }
+  cambiar(inicial);
+</script>
+
+</body>
+</html>
