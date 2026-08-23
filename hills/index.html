@@ -103,6 +103,8 @@
   ul.limpia li:last-child{border-bottom:0}
   .nombre{font-weight:600}
   .meta{display:block;color:var(--suave);font-size:14.5px;margin-top:2px}
+  /* La misma clase suelta como párrafo necesita respirar arriba */
+  p.meta{margin:16px 0 0;font-size:14px;line-height:1.55}
   a.mapa{font-family:system-ui,-apple-system,sans-serif;font-size:13px;color:var(--azul);
          text-decoration:none;white-space:nowrap}
   a.mapa:hover{text-decoration:underline}
@@ -504,8 +506,49 @@
 
   <h3 data-es="Correr" data-en="Running">Correr</h3>
   <p data-es="Tres recorridos que funcionan bien, de menos a más. Todos son de ida: el enlace abre Google Maps a pie con la distancia exacta. En verano, mejor antes de las nueve o al caer la tarde."
-     data-en="Three routes that work well, easiest first. All are one way: the link opens Google Maps on foot with the exact distance. In summer, go before nine or in the late afternoon.">
-     Tres recorridos que funcionan bien, de menos a más. Todos son de ida: el enlace abre Google Maps a pie con la distancia exacta. En verano, mejor antes de las nueve o al caer la tarde.</p>
+     data-en="Three routes that work well. The first starts at the front door; the other two are flat, beside the sea, and you drive to them.">
+     Tres recorridos que funcionan bien. El primero sale de la puerta de casa; los otros dos son llanos, junto al mar, y se llega a ellos en coche.</p>
+
+  <h3 data-es="La ruta de casa" data-en="The route from the house">La ruta de casa</h3>
+  <p data-es="Es la que hacemos nosotros. Sale de la puerta, baja serpenteando por la urbanización hasta el mar, sigue un tramo junto a la costa y vuelve a subir por donde ha bajado. Diez kilómetros y medio con cuatrocientos cuarenta metros de desnivel: la bajada es un regalo y la vuelta se gana."
+     data-en="It's the one we run ourselves. It leaves the front door, winds down through the urbanisation to the sea, follows the coast for a stretch and climbs back up the way it came. Ten and a half kilometres with four hundred and forty metres of climbing: the descent is a gift and the way back is earned.">
+     Es la que hacemos nosotros. Sale de la puerta, baja serpenteando por la urbanización hasta el mar, sigue un tramo junto a la costa y vuelve a subir por donde ha bajado. Diez kilómetros y medio con cuatrocientos cuarenta metros de desnivel: la bajada es un regalo y la vuelta se gana.</p>
+
+  <div class="ficha">
+    <dl>
+      <dt data-es="Distancia" data-en="Distance">Distancia</dt><dd>10,6 km</dd>
+      <dt data-es="Desnivel" data-en="Climbing">Desnivel</dt><dd>+440 m</dd>
+      <dt data-es="Altitud" data-en="Altitude">Altitud</dt><dd data-es="del nivel del mar a 214 m" data-en="sea level to 214 m">del nivel del mar a 214 m</dd>
+    </dl>
+  </div>
+
+  <figure>
+    <img src="img/ruta-mapa.svg" alt="" loading="lazy">
+    <figcaption data-es="El recorrido. Se sale y se vuelve por el mismo camino, así que puedes dar la vuelta cuando quieras y ajustar la distancia."
+                data-en="The route. You go out and come back the same way, so you can turn around whenever you like and set your own distance.">
+      El recorrido. Se sale y se vuelve por el mismo camino, así que puedes dar la vuelta cuando quieras y ajustar la distancia.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/ruta-perfil.svg" alt="" loading="lazy">
+    <figcaption data-es="El perfil, del kilómetro cero al final. Bajada continua hasta la mitad y subida sostenida de vuelta."
+                data-en="The elevation profile, from kilometre zero to the end. A steady descent to the halfway point and a sustained climb back.">
+      El perfil, del kilómetro cero al final. Bajada continua hasta la mitad y subida sostenida de vuelta.</figcaption>
+  </figure>
+
+  <p><a class="boton" href="ruta-altea-hills.gpx" download
+        data-es="Descargar el GPX" data-en="Download the GPX">Descargar el GPX</a></p>
+  <p class="meta" data-es="Se abre en Strava, Garmin, Komoot o cualquier reloj."
+                  data-en="Opens in Strava, Garmin, Komoot or any watch.">
+     Se abre en Strava, Garmin, Komoot o cualquier reloj.</p>
+
+  <div class="aviso">
+    <span data-es="En verano, sal antes de las nueve: la vuelta es toda cuesta arriba y a pleno sol se hace muy dura. Lleva agua, porque en el recorrido no hay fuentes."
+          data-en="In summer, set off before nine: the way back is all uphill and brutal in full sun. Take water — there are no fountains on the route.">
+      En verano, sal antes de las nueve: la vuelta es toda cuesta arriba y a pleno sol se hace muy dura. Lleva agua, porque en el recorrido no hay fuentes.</span>
+  </div>
+
+  <h3 data-es="Otros recorridos" data-en="Other routes">Otros recorridos</h3>
 
   <div class="ruta">
     <iframe class="mapa-emb" loading="lazy" title="Aparcamiento junto al río Algar"
@@ -527,15 +570,6 @@
   </div>
 
   <ul class="limpia">
-    <li>
-      <span class="nombre" data-es="De casa a la playa de l'Olla" data-en="From the house down to l'Olla beach">De casa a la playa de l'Olla</span><span class="precio">3,5 km</span>
-      <span class="meta" data-es="Bajada continua desde la urbanización hasta el mar, con las vistas de la bahía todo el rato. Aviso: la vuelta es toda cuesta arriba y se hace dura con calor, así que mucha gente sube en taxi o queda con alguien abajo."
-                          data-en="A steady descent from the urbanisation down to the sea, with bay views the whole way. Warning: the way back is all uphill and brutal in the heat, so many people take a taxi up or arrange to be picked up."
-      >Bajada continua desde la urbanización hasta el mar, con las vistas de la bahía todo el rato. Aviso: la vuelta es toda cuesta arriba y se hace dura con calor, así que mucha gente sube en taxi o queda con alguien abajo.</span>
-      <a class="mapa" target="_blank" rel="noopener"
-         href="https://www.google.com/maps/dir/?api=1&origin=38.6339895,-0.0044189&destination=38.6180313,-0.0290439&travelmode=walking"
-         data-es="Ver el recorrido →" data-en="See the route →">Ver el recorrido →</a>
-    </li>
     <li>
       <span class="nombre" data-es="Del río Algar al Albir" data-en="From the Algar river to Albir">Del río Algar al Albir</span><span class="precio">5 km</span>
       <span class="meta" data-es="El recorrido llano por excelencia. Se aparca gratis junto al campo de fútbol, al lado del río, y se sigue la costa hasta el paseo del Albir. Sin cuestas y casi todo junto al mar."

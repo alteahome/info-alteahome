@@ -7,35 +7,633 @@
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <meta name="theme-color" content="#1E4E79">
-<meta name="robots" content="noindex, nofollow">
+
 <title>The Penthouse · AlteaHome</title>
 <style>
-  :root{--crema:#FAF7F2;--papel:#FFF;--tinta:#23201C;--suave:#7A736A;
-        --linea:#E3DCD1;--azul:#1E4E79}
+  :root{
+    --crema:#FAF7F2; --papel:#FFFFFF; --tinta:#23201C; --suave:#7A736A;
+    --linea:#E3DCD1; --azul:#1E4E79; --terracota:#C4553E; --oliva:#5F7355;
+  }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;display:flex;flex-direction:column;
-       background:var(--crema);color:var(--tinta);
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--crema);color:var(--tinta);
        font:16.5px/1.65 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
-  .filo{height:4px;background:var(--azul);flex:none}
-  main{flex:1;display:flex;align-items:center;justify-content:center;
-       text-align:center;padding:30px 22px}
-  .marca{height:96px;width:auto;margin:0 auto 22px;display:block}
-  h1{font-size:30px;margin:0 0 10px;font-weight:600;letter-spacing:-.015em}
-  p{color:var(--suave);max-width:36ch;margin:0 auto 18px}
-  a.boton{display:inline-block;background:var(--azul);color:#fff;text-decoration:none;
-          padding:11px 20px;border-radius:3px;font-size:14px;
-          font-family:system-ui,-apple-system,sans-serif}
-  a.boton:hover{background:#17405F}
+  .ui{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+
+  .filo{height:4px;background:var(--azul)}
+
+  /* ── Barra superior ── */
+  .barra{position:sticky;top:0;z-index:20;background:rgba(250,247,242,.94);
+         backdrop-filter:blur(8px);border-bottom:1px solid var(--linea)}
+  .barra .fila{max-width:760px;margin:0 auto;padding:10px 20px;
+               display:flex;align-items:center;gap:14px}
+  .volver{font-family:system-ui,-apple-system,sans-serif;font-size:13px;
+          color:var(--azul);text-decoration:none;flex:1}
+  .volver:hover{text-decoration:underline}
+  .idioma{display:flex}
+  .idioma button{border:1px solid var(--linea);background:var(--papel);color:var(--suave);
+                 padding:5px 12px;font-size:12.5px;cursor:pointer;
+                 font-family:system-ui,-apple-system,sans-serif}
+  .idioma button:first-child{border-radius:2px 0 0 2px}
+  .idioma button:last-child{border-radius:0 2px 2px 0;border-left:0}
+  .idioma button[aria-pressed=true]{background:var(--azul);color:#fff;border-color:var(--azul)}
+  .idioma button:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+
+  header{max-width:760px;margin:0 auto;padding:38px 20px 8px}
+  .marca{height:62px;width:auto;display:block;margin:0 0 6px}
+  h1{font-size:clamp(30px,7vw,42px);margin:12px 0 6px;font-weight:600;letter-spacing:-.02em}
+  .lede{color:var(--suave);margin:0;max-width:46ch}
+
+  /* ── Índice ── */
+  .indice{max-width:760px;margin:26px auto 0;padding:0 20px;
+          display:flex;flex-wrap:wrap;gap:7px;
+          font-family:system-ui,-apple-system,sans-serif;font-size:13px}
+  .indice a{padding:5px 12px;border:1px solid var(--linea);border-radius:14px;
+            background:var(--papel);color:var(--tinta);text-decoration:none}
+  .indice a:hover{border-color:var(--azul);color:var(--azul)}
+
+  main{max-width:760px;margin:0 auto;padding:10px 20px 20px}
+  section{padding-top:38px}
+  h2{font-size:24px;margin:0 0 4px;font-weight:600;letter-spacing:-.01em}
+  h2::after{content:"";display:block;width:38px;height:2px;background:var(--azul);
+            margin-top:9px}
+  section.ocio h2::after{background:var(--terracota)}
+  h3{font-size:17px;margin:24px 0 5px;font-weight:600}
+  p{margin:9px 0}
+
+  .ficha{background:var(--papel);border:1px solid var(--linea);border-radius:4px;
+         padding:18px 20px;margin:16px 0}
+  .ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 18px;
+            align-items:baseline}
+  .ficha dt{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+            color:var(--suave);font-family:system-ui,-apple-system,sans-serif;
+            white-space:nowrap}
+  .ficha dd{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+            font-size:15px}
+
+  figure{margin:18px 0}
+  figure img{width:100%;height:auto;display:block;border-radius:4px;
+             border:1px solid var(--linea)}
+  figcaption{font-size:14px;color:var(--suave);margin-top:8px;
+             font-family:system-ui,-apple-system,sans-serif}
+
+  .ruta{background:var(--papel);border:1px solid var(--linea);border-radius:4px;
+        overflow:hidden;margin:18px 0}
+  .ruta .mapa-emb{display:block;width:100%;height:260px;border:0;
+                  border-bottom:1px solid var(--linea)}
+  .ruta .pie{padding:16px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .ruta .datos{flex:1;min-width:190px}
+  .ruta .destino{font-weight:600}
+  .ruta .detalle{display:block;color:var(--suave);font-size:14px;margin-top:2px;
+                 font-family:system-ui,-apple-system,sans-serif}
+  .boton{display:inline-block;background:var(--azul);color:#fff;text-decoration:none;
+         padding:10px 18px;border-radius:3px;font-size:14px;
+         font-family:system-ui,-apple-system,sans-serif;white-space:nowrap}
+  .boton:hover{background:#17405F}
+  .boton:focus-visible{outline:2px solid var(--tinta);outline-offset:2px}
+
+  .precio{display:inline-block;margin-left:8px;font-size:12px;color:var(--suave);
+          font-family:system-ui,-apple-system,sans-serif;letter-spacing:.06em}
+
+  .aviso{border-left:3px solid var(--terracota);background:#FCF4F1;padding:12px 16px;
+         margin:16px 0;font-size:15.5px}
+
+  ul.limpia{list-style:none;padding:0;margin:12px 0}
+  ul.limpia li{padding:11px 0;border-bottom:1px solid var(--linea)}
+  ul.limpia li:last-child{border-bottom:0}
+  .nombre{font-weight:600}
+  .meta{display:block;color:var(--suave);font-size:14.5px;margin-top:2px}
+  a.mapa{font-family:system-ui,-apple-system,sans-serif;font-size:13px;color:var(--azul);
+         text-decoration:none;white-space:nowrap}
+  a.mapa:hover{text-decoration:underline}
+  a:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+
+  footer{max-width:760px;margin:0 auto;padding:44px 20px 40px;color:var(--suave);
+         font-size:14.5px;border-top:1px solid var(--linea);margin-top:44px}
+  .licencia{font-size:12.5px;margin-top:14px}
 </style>
 </head>
 <body>
+
 <div class="filo" aria-hidden="true"></div>
-<main><div>
+
+<div class="barra">
+  <div class="fila">
+    <a class="volver" href="index.html">← <span data-es="Volver" data-en="Back">Volver</span></a>
+    <div class="idioma">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</div>
+
+<header>
   <img class="marca" src="img/logo.png" alt="Alteahome.es · Vacation Rentals">
-  <h1>The Penthouse</h1>
-  <p>Estamos preparando la guía de este apartamento. Mientras tanto, escríbenos y te contamos lo que necesites.</p>
-  <p><a class="boton" href="https://wa.me/34637720834">WhatsApp 637 720 834</a></p>
-</div></main>
-<div class="filo" style="height:1px;background:#E3DCD1" aria-hidden="true"></div>
+  <h1 data-es="The Penthouse" data-en="The Penthouse">The Penthouse</h1>
+  <p class="lede" data-es="Todo lo que necesitas para tu estancia. Aquí casi todo está a un paseo."
+                  data-en="Everything you need for your stay. Here, almost everything is a short walk away.">
+     Todo lo que necesitas para tu estancia. Aquí casi todo está a un paseo.</p>
+</header>
+
+<nav class="indice">
+  <a href="#llegada" data-es="Llegada" data-en="Arrival">Llegada</a>
+  <a href="#casa" data-es="El apartamento" data-en="The apartment">El apartamento</a>
+  <a href="#paseo" data-es="Playa y paseo" data-en="Beach and promenade">Playa y paseo</a>
+  <a href="#comer" data-es="Restaurantes" data-en="Restaurants">Restaurantes</a>
+  <a href="#compras" data-es="Compras" data-en="Shopping">Compras</a>
+  <a href="#deporte" data-es="Deporte" data-en="Sport">Deporte</a>
+  <a href="#quever" data-es="Qué ver" data-en="What to see">Qué ver</a>
+  <a href="#salida" data-es="Salida" data-en="Check-out">Salida</a>
+  <a href="#transporte" data-es="Transporte" data-en="Getting around">Transporte</a>
+  <a href="#emergencias" data-es="Emergencias" data-en="Emergencies">Emergencias</a>
+  <a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
+</nav>
+
+<main>
+<section id="llegada">
+  <h2 data-es="Llegada" data-en="Arrival">Llegada</h2>
+  <p data-es="El apartamento está en el centro de Altea, en un edificio moderno a ciento cincuenta metros del paseo marítimo y a doscientos de los supermercados. La entrada es a partir de las 15:00."
+     data-en="The apartment is in the centre of Altea, in a modern building a hundred and fifty metres from the seafront promenade and two hundred from the supermarkets. Check-in is from 3 pm.">
+     El apartamento está en el centro de Altea, en un edificio moderno a ciento cincuenta metros del paseo marítimo y a doscientos de los supermercados. La entrada es a partir de las 15:00.</p>
+  <h3 data-es="Parking" data-en="Parking">Parking</h3>
+  <p data-es="Tienes plaza privada en el garaje del sótano, incluida en el alquiler. No hace falta que busques aparcamiento en la calle, que en verano es prácticamente imposible por esta zona."
+     data-en="You have a private space in the basement garage, included in the rental. No need to look for street parking, which in summer is practically impossible around here.">
+     Tienes plaza privada en el garaje del sótano, incluida en el alquiler. No hace falta que busques aparcamiento en la calle, que en verano es prácticamente imposible por esta zona.</p>
+  <div class="aviso">
+    <span data-es="Si vienes en coche eléctrico: en la misma plaza donde está la entrada del edificio hay dos cargadores de 22 kW del ayuntamiento, de uso gratuito."
+          data-en="If you're driving an electric car: right on the square where the building entrance is, there are two 22 kW council chargers, free to use.">
+      Si vienes en coche eléctrico: en la misma plaza donde está la entrada del edificio hay dos cargadores de 22 kW del ayuntamiento, de uso gratuito.</span>
+  </div>
+</section>
+<section id="casa">
+  <h2 data-es="El apartamento" data-en="The apartment">El apartamento</h2>
+  <div class="ficha">
+    <dl>
+      <dt>WiFi</dt><dd>«completar»</dd>
+      <dt data-es="Contraseña" data-en="Password">Contraseña</dt><dd>«completar»</dd>
+    </dl>
+  </div>
+  <p data-es="Fibra de más de 300 Mb, de sobra para trabajar o ver series."
+     data-en="Fibre of over 300 Mb, plenty for working or streaming.">
+     Fibra de más de 300 Mb, de sobra para trabajar o ver series.</p>
+
+  <h3 data-es="Distribución" data-en="Layout">Distribución</h3>
+  <p data-es="Dos dormitorios, uno con cama de matrimonio grande y otro con dos camas individuales, y un baño con ducha y bañera. El salón integra la cocina con barra americana, y de ahí se sale a la gran terraza, con vistas al mar y a la montaña. La terraza se aprovecha igual en verano que en invierno."
+     data-en="Two bedrooms, one with a large double bed and one with two singles, and a bathroom with both a shower and a bath. The living room takes in the kitchen with a breakfast bar, and opens onto the large terrace with views of the sea and the mountains. The terrace works just as well in winter as in summer.">
+     Dos dormitorios, uno con cama de matrimonio grande y otro con dos camas individuales, y un baño con ducha y bañera. El salón integra la cocina con barra americana, y de ahí se sale a la gran terraza, con vistas al mar y a la montaña. La terraza se aprovecha igual en verano que en invierno.</p>
+
+  <h3 data-es="Electrodomésticos" data-en="Appliances">Electrodomésticos</h3>
+  <p data-es="Televisión por satélite con muchos canales en alemán, inglés y francés, además de Netflix. Lavadora, lavavajillas, microondas y cafetera. Aire acondicionado para el verano y radiadores para el invierno. La ropa de cama y las toallas están puestas."
+     data-en="Satellite television with plenty of channels in German, English and French, plus Netflix. Washing machine, dishwasher, microwave and coffee machine. Air conditioning for the summer and radiators for the winter. Bed linen and towels are provided.">
+     Televisión por satélite con muchos canales en alemán, inglés y francés, además de Netflix. Lavadora, lavavajillas, microondas y cafetera. Aire acondicionado para el verano y radiadores para el invierno. La ropa de cama y las toallas están puestas.</p>
+
+  <h3 data-es="Bicicletas" data-en="Bicycles">Bicicletas</h3>
+  <p data-es="Hay dos bicicletas a tu disposición, guardadas en el garaje. Para moverse por Altea y por el paseo son mucho más cómodas que el coche."
+     data-en="There are two bicycles for you to use, kept in the garage. For getting around Altea and along the promenade they're far handier than the car.">
+     Hay dos bicicletas a tu disposición, guardadas en el garaje. Para moverse por Altea y por el paseo son mucho más cómodas que el coche.</p>
+
+  <h3 data-es="Basura" data-en="Rubbish">Basura</h3>
+  <p data-es="«completar: dónde están los contenedores del edificio o de la calle»"
+     data-en="«to complete: where the building or street bins are»">«completar: dónde están los contenedores del edificio o de la calle»</p>
+</section>
+<section id="paseo" class="ocio">
+  <h2 data-es="Playa y paseo" data-en="Beach and promenade">Playa y paseo</h2>
+  <p data-es="A ciento cincuenta metros arranca el paseo marítimo de Altea, con la playa nueva, restaurantes y heladerías. Es llano y largo, y al atardecer se llena de gente paseando. Ésa es la gracia de estar aquí: no hace falta coger el coche para nada."
+     data-en="A hundred and fifty metres away the Altea seafront promenade begins, with the new beach, restaurants and ice-cream places. It's flat and long, and at dusk it fills with people out for a stroll. That's the charm of being here: you don't need the car for any of it.">
+     A ciento cincuenta metros arranca el paseo marítimo de Altea, con la playa nueva, restaurantes y heladerías. Es llano y largo, y al atardecer se llena de gente paseando. Ésa es la gracia de estar aquí: no hace falta coger el coche para nada.</p>
+  <p data-es="Las playas de Altea son de piedras, como casi todas las de por aquí. Si buscas arena, las más cercanas están en el apartado de qué ver."
+     data-en="Altea's beaches are pebbly, like almost all of them around here. If you're after sand, the closest ones are in the what-to-see section.">
+     Las playas de Altea son de piedras, como casi todas las de por aquí. Si buscas arena, las más cercanas están en el apartado de qué ver.</p>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Platja de la Roda<span class="precio">150 m</span></span>
+      <span class="meta" data-es="La playa del paseo, justo enfrente. Piedras, agua limpia y todos los servicios al lado." data-en="The promenade beach, right in front. Pebbles, clean water and every service right there.">La playa del paseo, justo enfrente. Piedras, agua limpia y todos los servicios al lado.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Platja+de+la+Roda+Altea" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+</section>
+<section id="comer" class="ocio">
+  <h2 data-es="Dónde comer" data-en="Where to eat">Dónde comer</h2>
+
+  <h3 data-es="Casco antiguo" data-en="Old town">Casco antiguo</h3>
+  <p data-es="Se sube andando desde el apartamento en unos diez minutos, por las callejuelas empedradas. Los tres están a un paso unos de otros. Merece la pena reservar en temporada."
+     data-en="A ten-minute walk up from the apartment, through the cobbled lanes. All three are a few steps from each other. Worth booking in season.">
+     Se sube andando desde el apartamento en unos diez minutos, por las callejuelas empedradas. Los tres están a un paso unos de otros. Merece la pena reservar en temporada.</p>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Stromboli<span class="precio">€€</span></span>
+      <span class="meta" data-es="Pizzería y crepería en Carrer Major, con terraza en la azotea. Buena relación calidad-precio. Abre todos los días desde las 12:30." data-en="Pizzeria and crêperie on Carrer Major, with a rooftop terrace. Good value. Open daily from 12:30.">Pizzería y crepería en Carrer Major, con terraza en la azotea. Buena relación calidad-precio. Abre todos los días desde las 12:30.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Pizzer%C3%ADa+Creperia+Stromboli+Altea&query_place_id=ChIJgfD7HxIBYg0R7t_doWfJDz4" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Oustau de Altea<span class="precio">€€€</span></span>
+      <span class="meta" data-es="Seguramente el mejor del casco antiguo. Cocina francesa, algo más caro que los otros dos. Justo enfrente del Stromboli. Solo cenas, desde las 18:30." data-en="Probably the best in the old town. French cooking, a bit pricier than the other two. Right opposite Stromboli. Dinner only, from 6:30 pm.">Seguramente el mejor del casco antiguo. Cocina francesa, algo más caro que los otros dos. Justo enfrente del Stromboli. Solo cenas, desde las 18:30.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Oustau+de+Altea&query_place_id=ChIJb0E5IBIBYg0Rjas23d5r5mQ" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Casa Vital<span class="precio">€€</span></span>
+      <span class="meta" data-es="En Carrer Salamanca, con terraza mirando al mar. Solo cenas; cierra domingos y lunes." data-en="On Carrer Salamanca, with a terrace looking out to sea. Dinner only; closed Sundays and Mondays.">En Carrer Salamanca, con terraza mirando al mar. Solo cenas; cierra domingos y lunes.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Restaurante+Casa+Vital+Altea&query_place_id=ChIJ9wmn7hEBYg0RoxLFZF0U2eM" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Paseo marítimo" data-en="Seafront">Paseo marítimo</h3>
+  <p data-es="Lo tienes a ciento cincuenta metros y está lleno de sitios. Éste es el que recomendamos."
+     data-en="It's a hundred and fifty metres away and it's full of places. This is the one we recommend.">
+     Lo tienes a ciento cincuenta metros y está lleno de sitios. Éste es el que recomendamos.</p>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Bon Vent · Club Náutico de Altea<span class="precio">€€€</span></span>
+      <span class="meta" data-es="Comida española y buena relación calidad-precio para lo que es. Se va andando por el paseo y tiene aparcamiento propio si prefieres el coche." data-en="Spanish food and good value for what it is. You can walk there along the promenade, and it has its own car park if you'd rather drive.">Comida española y buena relación calidad-precio para lo que es. Se va andando por el paseo y tiene aparcamiento propio si prefieres el coche.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Bon+Vent+Club+N%C3%A1utico+Altea&query_place_id=ChIJdbPSWj8BYg0RDLXHTDhaf_A" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Merece el coche" data-en="Worth the drive">Merece el coche</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">L'Olleta · Club del Mar<span class="precio">€€€</span></span>
+      <span class="meta" data-es="Junto a la playa de l'Olla, unos diez minutos en coche. Algo más caro, pero muy bueno. Cierra los lunes." data-en="By l'Olla beach, about ten minutes' drive. A bit pricier, but very good. Closed on Mondays.">Junto a la playa de l'Olla, unos diez minutos en coche. Algo más caro, pero muy bueno. Cierra los lunes.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Restaurante+L%27Olleta+Club+del+Mar+Altea&query_place_id=ChIJV26A61EAYg0RRW7SckI4m1c" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Ca Toni · Altea la Vella<span class="precio">€€</span></span>
+      <span class="meta" data-es="Cocina española de siempre, con terraza bajo los árboles. A diez minutos subiendo. Cierra los miércoles." data-en="Traditional Spanish cooking, with a terrace under the trees. Ten minutes up the hill. Closed Wednesdays.">Cocina española de siempre, con terraza bajo los árboles. A diez minutos subiendo. Cierra los miércoles.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Ca+Toni+Altea+la+Vella&query_place_id=ChIJveLRTrYBYg0RBvpBj-qcsCY" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Melitón Jardín · Altea la Vella<span class="precio">€€</span></span>
+      <span class="meta" data-es="En un jardín grande, con producto ecológico y bastante opción vegetariana. Abre todos los días desde las nueve." data-en="Set in a large garden, with organic produce and plenty of vegetarian options. Open every day from nine.">En un jardín grande, con producto ecológico y bastante opción vegetariana. Abre todos los días desde las nueve.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Melit%C3%B3n+Jard%C3%ADn+Altea&query_place_id=ChIJ88o_MLQBYg0RYGivTDf9LAw" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+</section>
+<section id="compras">
+  <h2 data-es="Compras" data-en="Shopping">Compras</h2>
+  <p data-es="Lo tienes todo a doscientos metros, así que la compra se hace andando."
+     data-en="Everything is within two hundred metres, so you can do the shopping on foot.">
+     Lo tienes todo a doscientos metros, así que la compra se hace andando.</p>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Consum<span class="precio">200 m</span></span>
+      <span class="meta" data-es="El más cercano, a un par de minutos andando. De lunes a sábado hasta las 21:30; cerrado los domingos." data-en="The closest, a couple of minutes on foot. Monday to Saturday until 9:30 pm; closed Sundays.">El más cercano, a un par de minutos andando. De lunes a sábado hasta las 21:30; cerrado los domingos.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Consum+Altea&query_place_id=ChIJU9Xk5g8BYg0RiUEKQ8lPPDo" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Mercadona<span class="precio">300 m</span></span>
+      <span class="meta" data-es="El grande y el más barato, en Calle L'Estatut. Aparcamiento gratuito si vas en coche: escanea el ticket en caja antes de salir. Cierra los domingos a las 15:00." data-en="The big, cheapest one, on Calle L'Estatut. Free parking if you drive: scan your ticket at the till before leaving. Closes at 3 pm on Sundays.">El grande y el más barato, en Calle L'Estatut. Aparcamiento gratuito si vas en coche: escanea el ticket en caja antes de salir. Cierra los domingos a las 15:00.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Mercadona+Altea&query_place_id=ChIJQROHbg8BYg0RFh7MJw98dNc" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Mercat Municipal<span class="precio">500 m</span></span>
+      <span class="meta" data-es="Frente al ayuntamiento: pescado, carne y verdura de la zona, por las mañanas hasta las 14:30. Cerrado los domingos. La calle de alrededor es la zona comercial de Altea, con tiendas y cafeterías." data-en="Opposite the town hall: local fish, meat and vegetables, mornings until 2:30 pm. Closed Sundays. The surrounding street is Altea's shopping area, with shops and cafés.">Frente al ayuntamiento: pescado, carne y verdura de la zona, por las mañanas hasta las 14:30. Cerrado los domingos. La calle de alrededor es la zona comercial de Altea, con tiendas y cafeterías.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Mercat+Municipal+Altea&query_place_id=ChIJvwjV7A8BYg0R36v1b_2SV0A" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Centro Comercial La Marina<span class="precio">22 km · 25 min</span></span>
+      <span class="meta" data-es="Centro comercial grande junto a Benidorm, con Zara, H&amp;M y demás, restaurantes arriba y aparcamiento gratis. Útil si llueve o hace demasiado calor para la playa." data-en="A big shopping centre next to Benidorm, with Zara, H&amp;M and the rest, restaurants upstairs and free parking. Handy if it rains or it's too hot for the beach.">Centro comercial grande junto a Benidorm, con Zara, H&amp;M y demás, restaurantes arriba y aparcamiento gratis. Útil si llueve o hace demasiado calor para la playa.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Centro+Comercial+La+Marina+Finestrat&query_place_id=ChIJCxbxXhAbYg0RMnEkehqWMDU" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+</section>
+<section id="deporte" class="ocio">
+  <h2 data-es="Deporte y naturaleza" data-en="Sport and outdoors">Deporte y naturaleza</h2>
+
+  <h3 data-es="Andar y correr" data-en="Walking and running">Andar y correr</h3>
+  <p data-es="El paseo marítimo empieza a ciento cincuenta metros y es llano: para correr o pasear es inmejorable, y a primera hora está vacío. Enlazando hacia el norte se llega hasta la desembocadura del riu Algar, un paraje protegido lleno de aves."
+     data-en="The seafront promenade starts a hundred and fifty metres away and it's flat: unbeatable for a run or a walk, and empty first thing. Heading north you can link up as far as the mouth of the Algar river, a protected spot full of birdlife.">
+     El paseo marítimo empieza a ciento cincuenta metros y es llano: para correr o pasear es inmejorable, y a primera hora está vacío. Enlazando hacia el norte se llega hasta la desembocadura del riu Algar, un paraje protegido lleno de aves.</p>
+
+  <h3 data-es="En bicicleta" data-en="By bike">En bicicleta</h3>
+  <p data-es="Con las dos bicicletas del garaje puedes recorrer todo el paseo y llegar hasta el Albir por la costa sin apenas cuestas. Es la mejor forma de moverse por aquí."
+     data-en="With the two bicycles in the garage you can ride the whole promenade and reach Albir along the coast with barely a hill. It's the best way to get around here.">
+     Con las dos bicicletas del garaje puedes recorrer todo el paseo y llegar hasta el Albir por la costa sin apenas cuestas. Es la mejor forma de moverse por aquí.</p>
+
+  <h3 data-es="El paseo del faro" data-en="The lighthouse walk">El paseo del faro</h3>
+  <p data-es="Muy recomendable y de lo más fácil que hay por aquí: dos kilómetros y medio de camino asfaltado hasta el Faro del Albir, dentro del parque natural de la Serra Gelada. Se hace con niños y con carrito, y desde arriba se ve toda la bahía. Mejor a primera hora o al atardecer, que no hay sombra."
+     data-en="Highly recommended and the easiest walk around here: a mile and a half of paved path up to the Albir lighthouse, inside the Serra Gelada natural park. Fine with children and pushchairs, and from the top you see the whole bay. Best early or at sunset — there's no shade.">
+     Muy recomendable y de lo más fácil que hay por aquí: dos kilómetros y medio de camino asfaltado hasta el Faro del Albir, dentro del parque natural de la Serra Gelada. Se hace con niños y con carrito, y desde arriba se ve toda la bahía. Mejor a primera hora o al atardecer, que no hay sombra.</p>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Parking del Faro de l'Albir<span class="precio">10 km · 15 min</span></span>
+      <span class="meta" data-es="Gratuito, con aseos y zona de mesas al inicio del camino. En temporada alta se llena pronto." data-en="Free, with toilets and a picnic area at the start of the path. In high season it fills up early.">Gratuito, con aseos y zona de mesas al inicio del camino. En temporada alta se llena pronto.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Parking+Faro+de+El+Albir&query_place_id=ChIJBVXL3rIGYg0R1TOYv8mIIiA" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Para senderistas" data-en="For hikers">Para senderistas</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre" data-es="El Forat y el Fort de Bèrnia" data-en="El Forat and Fort de Bèrnia">El Forat y el Fort de Bèrnia</span><span class="precio">25 km · 35 min</span>
+      <span class="meta" data-es="La ruta clásica de la zona, el sendero PR-CV 7. El Forat es un túnel natural de unos veinte metros que atraviesa la sierra: se pasa agachado y se sale a un balcón con vistas a Altea. La circular completa añade el Fort de Bèrnia, una fortaleza del siglo XVI. Dificultad media, unos 400 metros de desnivel."
+                          data-en="The classic walk around here, the PR-CV 7 trail. El Forat is a natural tunnel some twenty metres long straight through the ridge: you duck through and come out on a balcony looking over Altea. The full loop adds Fort de Bèrnia, a 16th-century fortress. Moderate, about 400 m of climbing.">
+        La ruta clásica de la zona, el sendero PR-CV 7. El Forat es un túnel natural de unos veinte metros que atraviesa la sierra: se pasa agachado y se sale a un balcón con vistas a Altea. La circular completa añade el Fort de Bèrnia, una fortaleza del siglo XVI. Dificultad media, unos 400 metros de desnivel.</span>
+      <a class="mapa" href="https://es.wikiloc.com/rutas-senderismo/bernia-circular-47534528" target="_blank" rel="noopener"
+         data-es="Track en Wikiloc →" data-en="Track on Wikiloc →">Track en Wikiloc →</a>
+    </li>
+    <li>
+      <span class="nombre" data-es="Del faro del Albir a la Cruz de Benidorm" data-en="From Albir lighthouse to the Benidorm Cross">Del faro del Albir a la Cruz de Benidorm</span><span class="precio">10 km · 15 min</span>
+      <span class="meta" data-es="Travesía por la cresta de la Serra Gelada, bordeando los acantilados con el mar siempre debajo. Es lineal: se deja el coche en el parking del faro y se vuelve en el autobús 10 desde Benidorm. Para gente acostumbrada a andar por monte."
+                          data-en="A traverse along the Serra Gelada ridge, following the cliffs with the sea always below. It's linear: leave the car at the lighthouse car park and come back on the number 10 bus from Benidorm. For people used to hill walking.">
+        Travesía por la cresta de la Serra Gelada, bordeando los acantilados con el mar siempre debajo. Es lineal: se deja el coche en el parking del faro y se vuelve en el autobús 10 desde Benidorm. Para gente acostumbrada a andar por monte.</span>
+      <a class="mapa" href="https://es.wikiloc.com/rutas-senderismo/serra-gelada-de-lalbir-a-la-cruz-benidorm-46149416" target="_blank" rel="noopener"
+         data-es="Track en Wikiloc →" data-en="Track on Wikiloc →">Track en Wikiloc →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Golf" data-en="Golf">Golf</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Altea Club de Golf · Altea la Vella<span class="precio">6 km · 12 min</span></span>
+      <span class="meta" data-es="Nueve hoyos en un valle recogido, muy bien cuidado, con casa club y terraza. Alquilan palos y buggies." data-en="Nine holes in a tucked-away valley, very well kept, with a clubhouse and terrace. Clubs and buggies for hire.">Nueve hoyos en un valle recogido, muy bien cuidado, con casa club y terraza. Alquilan palos y buggies.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Altea+Club+de+Golf&query_place_id=ChIJxSLaDEoAYg0RQDpO632FTHM" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Meliá Villaitana · Benidorm<span class="precio">20 km · 25 min</span></span>
+      <span class="meta" data-es="Dos campos de dieciocho hoyos sobre Benidorm, el Levante más largo y exigente y el Poniente más corto. Reserva con antelación en temporada." data-en="Two eighteen-hole courses above Benidorm: Levante, longer and more demanding, and Poniente, shorter. Book ahead in season.">Dos campos de dieciocho hoyos sobre Benidorm, el Levante más largo y exigente y el Poniente más corto. Reserva con antelación en temporada.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Melia+Villaitana+Golf+Benidorm&query_place_id=ChIJ62CwT00bYg0RRPv9QUtZ0yA" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Tenis y pádel" data-en="Tennis and padel">Tenis y pádel</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Club de Tenis y Pádel Altea<span class="precio">5 km · 10 min</span></span>
+      <span class="meta" data-es="En Partida Els Arcs. Pistas de tenis y de pádel, y piscina en verano." data-en="On Partida Els Arcs. Tennis and padel courts, plus a pool in summer.">En Partida Els Arcs. Pistas de tenis y de pádel, y piscina en verano.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Club+de+Tenis+y+P%C3%A1del+Altea&query_place_id=ChIJVw2ICmsBYg0R_100r1gx_vs" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+</section>
+<section id="quever" class="ocio">
+  <h2 data-es="Qué ver" data-en="What to see">Qué ver</h2>
+
+  <h3 data-es="Andando desde casa" data-en="On foot from the apartment">Andando desde casa</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Iglesia de Nuestra Señora del Consuelo<span class="precio">10 min</span></span>
+      <span class="meta" data-es="Las cúpulas azules de Altea, la postal del pueblo. Se sube por las callejuelas empedradas hasta la plaza, con vistas a toda la bahía. Al atardecer es cuando mejor está, y alrededor hay terrazas donde sentarse." data-en="Altea's blue-tiled domes, the picture-postcard view of the town. You walk up the cobbled lanes to the square, looking out over the whole bay. Sunset is the best time, and there are terraces around the square.">Las cúpulas azules de Altea, la postal del pueblo. Se sube por las callejuelas empedradas hasta la plaza, con vistas a toda la bahía. Al atardecer es cuando mejor está, y alrededor hay terrazas donde sentarse.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Esgl%C3%A9sia+de+Santa+Maria+del+Consol+Altea&query_place_id=ChIJrTwjGrYBYg0Rx18318hHV50" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Mirador de los Cronistas<span class="precio">12 min</span></span>
+      <span class="meta" data-es="Junto a la iglesia, el balcón desde el que se ve la bahía entera hasta el Peñón de Ifach. Es la foto que todo el mundo se lleva de Altea." data-en="Next to the church, the balcony looking out over the whole bay as far as the Peñón de Ifach. It's the photo everyone takes away from Altea.">Junto a la iglesia, el balcón desde el que se ve la bahía entera hasta el Peñón de Ifach. Es la foto que todo el mundo se lleva de Altea.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Mirador+dels+Cronistes+Altea" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Una excursión de medio día" data-en="A half-day trip">Una excursión de medio día</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Altea la Vella<span class="precio">5 km · 10 min</span></span>
+      <span class="meta" data-es="La pedanía de arriba: el Altea de antes del turismo. Panadería, un par de restaurantes, bares donde almorzar y mercado. Ambiente de pueblo pequeño que ya no se encuentra abajo." data-en="The village up the hill: the Altea of before tourism. A bakery, a couple of restaurants, bars for a mid-morning bite, and a market. The small-village feel you don't get down on the coast.">La pedanía de arriba: el Altea de antes del turismo. Panadería, un par de restaurantes, bares donde almorzar y mercado. Ambiente de pueblo pequeño que ya no se encuentra abajo.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Altea+la+Vella+Alicante" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Fonts de l'Algar<span class="precio">13 km · 20 min</span></span>
+      <span class="meta" data-es="Cascadas y pozas de agua turquesa en un barranco, con pasarelas de madera. Se puede uno bañar. Ve a primera hora: abre a las nueve y a partir de mediodía se llena. Lleva escarpines, que las rocas resbalan." data-en="Waterfalls and turquoise pools in a gorge, with wooden walkways. You can swim. Go first thing: it opens at nine and fills up from midday. Bring water shoes — the rocks are slippery.">Cascadas y pozas de agua turquesa en un barranco, con pasarelas de madera. Se puede uno bañar. Ve a primera hora: abre a las nueve y a partir de mediodía se llena. Lleva escarpines, que las rocas resbalan.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Fonts+d%27Algar+Callosa+d%27en+Sarri%C3%A0&query_place_id=ChIJ1WjHdZj4YQ0RE3RT1fvDxYs" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Castillo de Guadalest<span class="precio">26 km · 35 min</span></span>
+      <span class="meta" data-es="Un pueblo diminuto colgado en la roca, con el castillo arriba y el embalse turquesa abajo. Es lo más visitado de la comarca, así que mejor ir temprano. La carretera de subida es preciosa." data-en="A tiny village perched on the rock, with the castle above and the turquoise reservoir below. The most visited spot in the area, so go early. The drive up is beautiful.">Un pueblo diminuto colgado en la roca, con el castillo arriba y el embalse turquesa abajo. Es lo más visitado de la comarca, así que mejor ir temprano. La carretera de subida es preciosa.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Castell+de+Guadalest&query_place_id=ChIJV8IZG0f2YQ0RzHJyP-d3wLc" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Playas de arena" data-en="Sandy beaches">Playas de arena</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Platja del Racó de l'Albir<span class="precio">8 km · 12 min</span></span>
+      <span class="meta" data-es="La más cercana con arena. Paseo con cafeterías y restaurantes, y el camino del faro justo al lado. Se puede ir en bici por la costa." data-en="The closest sandy one. A promenade with cafés and restaurants, and the lighthouse path right next door. You can cycle there along the coast.">La más cercana con arena. Paseo con cafeterías y restaurantes, y el camino del faro justo al lado. Se puede ir en bici por la costa.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Platja+del+Rac%C3%B3+de+l%27Albir" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Playa del Arenal-Bol · Calpe<span class="precio">13 km · 18 min</span></span>
+      <span class="meta" data-es="Arena fina con el Peñón de Ifach justo al lado. Paseo con restaurantes y buen ambiente familiar." data-en="Fine sand with the Peñón de Ifach right beside it. A promenade with restaurants and a good family feel.">Arena fina con el Peñón de Ifach justo al lado. Paseo con restaurantes y buen ambiente familiar.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Playa+del+Arenal-Bol+Calpe&query_place_id=ChIJg9qxjzr-nRIRXfl3fierO9s" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Playa de Levante · Benidorm<span class="precio">15 km · 20 min</span></span>
+      <span class="meta" data-es="La playa grande de Benidorm: arena, socorristas, hamacas y todos los servicios. Muy concurrida, y esa es justo su gracia." data-en="Benidorm's big beach: sand, lifeguards, sunbeds and every service. Very busy, and that's rather the point.">La playa grande de Benidorm: arena, socorristas, hamacas y todos los servicios. Muy concurrida, y esa es justo su gracia.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Platja+de+Llevant+Benidorm&query_place_id=ChIJiSv81_oEYg0RnqOTttlDP4g" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Con niños" data-en="With children">Con niños</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Aqualandia<span class="precio">16 km · 22 min</span></span>
+      <span class="meta" data-es="Parque acuático en lo alto de Benidorm, con toboganes y piscina de olas. Abre de 10:00 a 20:00 en temporada." data-en="Water park up above Benidorm, with slides and a wave pool. Open 10 am to 8 pm in season.">Parque acuático en lo alto de Benidorm, con toboganes y piscina de olas. Abre de 10:00 a 20:00 en temporada.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Aqualandia+Benidorm&query_place_id=ChIJj5VYZt0EYg0R7XsMHNYOTLo" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Terra Mítica<span class="precio">20 km · 25 min</span></span>
+      <span class="meta" data-es="Parque de atracciones temático del Mediterráneo antiguo, con montañas rusas y espectáculos. Para un día entero." data-en="Theme park based on the ancient Mediterranean, with roller coasters and shows. A full day out.">Parque de atracciones temático del Mediterráneo antiguo, con montañas rusas y espectáculos. Para un día entero.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Terra+M%C3%ADtica+Benidorm&query_place_id=ChIJAQAAAFQbYg0RylwHaIZ6phg" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Terra Natura<span class="precio">20 km · 25 min</span></span>
+      <span class="meta" data-es="Zoo con los animales en recintos abiertos y una zona de aves por la que se pasea entre ellas. Más tranquilo que los otros dos." data-en="A zoo with open enclosures and an aviary you walk through among the birds. Calmer than the other two.">Zoo con los animales en recintos abiertos y una zona de aves por la que se pasea entre ellas. Más tranquilo que los otros dos.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Terra+Natura+Benidorm&query_place_id=ChIJfy4uJFUDYg0RSmZmMYpuL1I" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+  <p class="meta" data-es="Las distancias son aproximadas y en coche desde el apartamento, salvo las que van a pie."
+                  data-en="Distances are approximate, driving from the apartment, except those marked on foot.">
+     Las distancias son aproximadas y en coche desde el apartamento, salvo las que van a pie.</p>
+</section>
+<section id="salida">
+  <h2 data-es="Al marcharte" data-en="When you leave">Al marcharte</h2>
+  <p><strong data-es="La salida es a las 11:00." data-en="Check-out is at 11 am.">La salida es a las 11:00.</strong></p>
+  <p data-es="«completar: qué hacer con las llaves al salir»"
+     data-en="«to complete: what to do with the keys on leaving»">«completar: qué hacer con las llaves al salir»</p>
+  <p data-es="Apaga el aire acondicionado o los radiadores y deja las bicicletas en el garaje."
+     data-en="Switch off the air conditioning or the radiators, and leave the bicycles in the garage.">
+     Apaga el aire acondicionado o los radiadores y deja las bicicletas en el garaje.</p>
+  <div class="aviso">
+    <span data-es="Te agradeceríamos un mensaje cuando salgas: así sabemos que la casa queda libre y podemos organizar la limpieza."
+          data-en="We'd be grateful for a quick message when you go: that way we know the flat is free and can organise the cleaning.">
+      Te agradeceríamos un mensaje cuando salgas: así sabemos que la casa queda libre y podemos organizar la limpieza.</span>
+  </div>
+</section>
+<section id="transporte">
+  <h2 data-es="Cómo moverse" data-en="Getting around">Cómo moverse</h2>
+  <p data-es="Aquí el coche casi no hace falta: los supermercados, el paseo, la playa, el casco antiguo y los restaurantes están todos andando. Para lo demás tienes las dos bicicletas del garaje, y la plaza de parking por si vienes en coche."
+     data-en="You barely need the car here: the supermarkets, the promenade, the beach, the old town and the restaurants are all within walking distance. For anything else there are the two bicycles in the garage, and the parking space if you do drive.">
+     Aquí el coche casi no hace falta: los supermercados, el paseo, la playa, el casco antiguo y los restaurantes están todos andando. Para lo demás tienes las dos bicicletas del garaje, y la plaza de parking por si vienes en coche.</p>
+
+  <h3 data-es="Desde el aeropuerto" data-en="From the airport">Desde el aeropuerto</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Alicante-Elche (ALC)<span class="precio">60 km · 50 min</span></span>
+      <span class="meta" data-es="El más cómodo, por la AP-7."
+                          data-en="The handiest one, on the AP-7.">El más cómodo, por la AP-7.</span>
+      <a class="mapa" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/dir/?api=1&origin=Aeropuerto+de+Alicante-Elche&destination=Altea+Comunidad+Valenciana&travelmode=driving"
+         data-es="Ver la ruta →" data-en="See the route →">Ver la ruta →</a>
+    </li>
+    <li>
+      <span class="nombre">Valencia (VLC)<span class="precio">145 km · 1 h 45</span></span>
+      <span class="meta" data-es="También por la AP-7."
+                          data-en="Also on the AP-7.">También por la AP-7.</span>
+      <a class="mapa" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/dir/?api=1&origin=Aeropuerto+de+Valencia&destination=Altea+Comunidad+Valenciana&travelmode=driving"
+         data-es="Ver la ruta →" data-en="See the route →">Ver la ruta →</a>
+    </li>
+  </ul>
+  <p class="meta" data-es="Los tiempos son orientativos; los enlaces abren Google Maps con el tráfico del momento."
+                  data-en="Times are approximate; the links open Google Maps with live traffic.">
+     Los tiempos son orientativos; los enlaces abren Google Maps con el tráfico del momento.</p>
+
+  <h3 data-es="Tren y autobús" data-en="Train and bus">Tren y autobús</h3>
+  <p data-es="La estación del TRAM está a unos diez minutos andando, con línea hasta Benidorm, Denia y Alicante. Va bien para pasar el día fuera sin coger el coche."
+     data-en="The TRAM station is about ten minutes on foot, with a line to Benidorm, Denia and Alicante. Handy for a day out without taking the car.">
+     La estación del TRAM está a unos diez minutos andando, con línea hasta Benidorm, Denia y Alicante. Va bien para pasar el día fuera sin coger el coche.</p>
+
+  <h3 data-es="Taxi" data-en="Taxi">Taxi</h3>
+  <p data-es="Radio Taxi Marina Baixa cubre Altea las 24 horas. Aceptan tarjeta y Bizum, y tienen coches grandes y adaptados si los pides al reservar."
+     data-en="Radio Taxi Marina Baixa covers Altea around the clock. They take cards and Bizum, and have larger and adapted vehicles if you ask when booking.">
+     Radio Taxi Marina Baixa cubre Altea las 24 horas. Aceptan tarjeta y Bizum, y tienen coches grandes y adaptados si los pides al reservar.</p>
+  <div class="ficha">
+    <dl>
+      <dt data-es="Teléfono" data-en="Phone">Teléfono</dt>
+      <dd><a href="tel:+34966810010">966 81 00 10</a></dd>
+    </dl>
+  </div>
+</section>
+<section id="emergencias">
+  <h2 data-es="Emergencias y salud" data-en="Emergencies and health">Emergencias y salud</h2>
+  <div class="ficha">
+    <dl>
+      <dt data-es="Emergencias" data-en="Emergencies">Emergencias</dt><dd><a href="tel:112">112</a></dd>
+      <dt data-es="Bomberos" data-en="Fire service">Bomberos</dt><dd><a href="tel:112">112</a></dd>
+    </dl>
+  </div>
+  <p data-es="El 112 es el número único para ambulancia, bomberos y policía en toda España. Atienden en español, valenciano, inglés, francés y alemán. Es gratuito desde cualquier teléfono, también sin cobertura del propio operador."
+     data-en="112 is the single number for ambulance, fire and police across Spain. They answer in Spanish, Valencian, English, French and German. It's free from any phone, even without your own network's coverage.">
+     El 112 es el número único para ambulancia, bomberos y policía en toda España. Atienden en español, valenciano, inglés, francés y alemán. Es gratuito desde cualquier teléfono, también sin cobertura del propio operador.</p>
+
+  <h3 data-es="Dónde ir" data-en="Where to go">Dónde ir</h3>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Centre de Salut d'Altea<span class="precio">1 km · 4 min</span></span>
+      <span class="meta" data-es="El ambulatorio público, en Carrer Galotxa, a un paseo corto. Consultas de 8:00 a 15:00; fuera de ese horario funciona como punto de urgencias. Teléfono 966 816 130. Con la tarjeta sanitaria europea la atención es gratuita." data-en="The public health centre, on Carrer Galotxa, a short walk away. Appointments 8 am to 3 pm; outside those hours it works as an emergency point. Phone 966 816 130. With a European health card, treatment is free.">El ambulatorio público, en Carrer Galotxa, a un paseo corto. Consultas de 8:00 a 15:00; fuera de ese horario funciona como punto de urgencias. Teléfono 966 816 130. Con la tarjeta sanitaria europea la atención es gratuita.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Centre+de+Salut+d%27Altea&query_place_id=ChIJodMmwAUBYg0RRdcnD4Y9u7I" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Hospital Marina Baixa · La Vila Joiosa<span class="precio">25 km · 25 min</span></span>
+      <span class="meta" data-es="El hospital público de referencia de la comarca, con urgencias 24 horas. Es el que te corresponde con la sanidad pública o la tarjeta sanitaria europea. Teléfono 966 907 200." data-en="The area's public referral hospital, with 24-hour A&amp;E. This is the one you're covered for on public healthcare or a European health card. Phone 966 907 200.">El hospital público de referencia de la comarca, con urgencias 24 horas. Es el que te corresponde con la sanidad pública o la tarjeta sanitaria europea. Teléfono 966 907 200.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Hospital+Marina+Baixa+Villajoyosa&query_place_id=ChIJ9Y2s5rIbYg0Rrv69EJ_xgE0" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Hospital IMED Levante · Benidorm<span class="precio">18 km · 22 min</span></span>
+      <span class="meta" data-es="Privado, con urgencias 24 horas y personal que habla varios idiomas. Si tienes seguro de viaje, es el más habitual en la zona. Teléfono 966 878 787." data-en="Private, with 24-hour A&amp;E and multilingual staff. If you have travel insurance, this is the usual choice around here. Phone 966 878 787.">Privado, con urgencias 24 horas y personal que habla varios idiomas. Si tienes seguro de viaje, es el más habitual en la zona. Teléfono 966 878 787.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Hospital+IMED+Levante+Benidorm&query_place_id=ChIJPSmGvlsEYg0R3Qw1Iir0pBw" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Hospital HCB Benidorm<span class="precio">17 km · 20 min</span></span>
+      <span class="meta" data-es="Otro privado con urgencias 24 horas, algo más cerca del centro de Benidorm. Teléfono 965 853 850." data-en="Another private hospital with 24-hour A&amp;E, a little closer to central Benidorm. Phone 965 853 850.">Otro privado con urgencias 24 horas, algo más cerca del centro de Benidorm. Teléfono 965 853 850.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Hospital+HCB+Benidorm&query_place_id=ChIJ3cy5JuoEYg0RFReFRoQghlo" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+
+  <h3 data-es="Farmacias" data-en="Pharmacies">Farmacias</h3>
+  <p data-es="Las tres están andando desde el apartamento."
+     data-en="All three are within walking distance of the apartment.">
+     Las tres están andando desde el apartamento.</p>
+  <ul class="limpia">
+    <li>
+      <span class="nombre">Farmacia 365 Días<span class="precio">5 min</span></span>
+      <span class="meta" data-es="En Avinguda Rei en Jaume I. La única que abre todos los días del año, domingos y festivos incluidos, de 8:30 a 21:30." data-en="On Avinguda Rei en Jaume I. The only one open every day of the year, Sundays and holidays included, 8:30 am to 9:30 pm.">En Avinguda Rei en Jaume I. La única que abre todos los días del año, domingos y festivos incluidos, de 8:30 a 21:30.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Farmacia+365+Dias+Altea&query_place_id=ChIJ3ZCfkg8BYg0RBmVpT65DgSk" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Farmacia Galiana<span class="precio">6 min</span></span>
+      <span class="meta" data-es="En Carrer Sant Pere, cerca de la playa y del casco antiguo. Hasta las 21:00 entre semana." data-en="On Carrer Sant Pere, near the beach and the old town. Until 9 pm on weekdays.">En Carrer Sant Pere, cerca de la playa y del casco antiguo. Hasta las 21:00 entre semana.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Farmacia+Galiana+Altea&query_place_id=ChIJDb0ebxQBYg0RF06p2dNsDKI" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+    <li>
+      <span class="nombre">Farmacia Lerma<span class="precio">7 min</span></span>
+      <span class="meta" data-es="En la Costera Pont del Montcau. Hasta las 21:00 entre semana." data-en="On Costera Pont del Montcau. Until 9 pm on weekdays.">En la Costera Pont del Montcau. Hasta las 21:00 entre semana.</span>
+      <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Farmacia+Lerma+Altea&query_place_id=ChIJUzgfCQUBYg0RIsyR-FuoMjY" target="_blank" rel="noopener"
+         data-es="Ver en el mapa →" data-en="Open in maps →">Ver en el mapa →</a>
+    </li>
+  </ul>
+  <p class="meta" data-es="Fuera de horario siempre hay una farmacia de guardia en el municipio; el 112 te indica cuál."
+                  data-en="Outside those hours there's always a duty pharmacy in the area; 112 can tell you which one.">
+     Fuera de horario siempre hay una farmacia de guardia en el municipio; el 112 te indica cuál.</p>
+</section>
+
+<section id="contacto">
+  <h2 data-es="Contacto" data-en="Contact">Contacto</h2>
+  <p data-es="Para cualquier cosa durante la estancia, lo más rápido es WhatsApp. Contestamos lo antes que podemos."
+     data-en="For anything during your stay, WhatsApp is the quickest. We'll reply as soon as we can.">
+     Para cualquier cosa durante la estancia, lo más rápido es WhatsApp. Contestamos lo antes que podemos.</p>
+  <div class="ficha">
+    <dl>
+      <dt>WhatsApp</dt><dd><a href="https://wa.me/34637720834" target="_blank" rel="noopener">637 720 834</a></dd>
+      <dt data-es="Teléfono" data-en="Phone">Teléfono</dt><dd><a href="tel:+34637720834">637 720 834</a></dd>
+      <dt data-es="Correo" data-en="Email">Correo</dt><dd><a href="mailto:cristina.narbo@gmail.com">cristina.narbo@gmail.com</a></dd>
+    </dl>
+  </div>
+  <p data-es="También puedes escribirnos por la plataforma donde reservaste: Airbnb, Booking o nuestra propia web, www.alteahome.es."
+     data-en="You can also message us through wherever you booked: Airbnb, Booking, or our own site, www.alteahome.es.">
+     También puedes escribirnos por la plataforma donde reservaste: Airbnb, Booking o nuestra propia web, www.alteahome.es.</p>
+</section>
+</main>
+
+<footer>
+  <p data-es="Esperamos que disfrutéis de Altea." data-en="We hope you enjoy Altea.">Esperamos que disfrutéis de Altea.</p>
+  <p class="licencia">The Penthouse · Altea · VT-478229-A</p>
+</footer>
+
+<script>
+  const botones = document.querySelectorAll('.idioma button');
+  function cambiar(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-es]').forEach(el => { el.textContent = el.dataset[lang]; });
+    botones.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+    try { localStorage.setItem('alteahome-lang', lang); } catch (e) {}
+  }
+  botones.forEach(b => b.addEventListener('click', () => cambiar(b.dataset.lang)));
+
+  let inicial = null;
+  try { inicial = localStorage.getItem('alteahome-lang'); } catch (e) {}
+  if (!inicial) { inicial = (navigator.language || 'es').startsWith('es') ? 'es' : 'en'; }
+  cambiar(inicial);
+</script>
+
 </body>
 </html>
